@@ -1,0 +1,29 @@
+name: ci
+
+run-name: Check build
+
+on:
+    push:
+        branches: [main, feat/**]
+    pull_request:
+        branches: [main]
+
+jobs:
+    ci:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+            - uses: actions/setup-node@v6
+              with:
+                node-version: v22
+            - name: Check Front
+              run: |
+                   cd client
+                   npm ci
+                   npm run lint
+                   npm run build
+            - name: Check back
+              run: |
+                   cd server
+                   npm ci
+                   npm run build
