@@ -3,7 +3,7 @@ import { pool } from "../db/pool.js";
 
 const router = Router();
 
-router.get("/api/posts", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
     try {
         const result = await pool.query(`
             SELECT users.username, posts.content, posts.id, posts.created_at FROM posts
@@ -17,7 +17,7 @@ router.get("/api/posts", async (req: Request, res: Response) => {
     }
 });
 
-router.post("/api/posts", async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
     const posts = {
         authorId: req.body.authorId,
         content: req.body.content,
