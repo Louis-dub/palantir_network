@@ -53,6 +53,51 @@
     --common-border: var(--hobbit-border);
 }
 
+:root[data-theme="elf"] {
+    --common-background: var(--elf-background);
+    --common-card: var(--elf-card);
+    --common-text-primary: var(--elf-text-primary);
+    --common-text-secondary: var(--elf-text-secondary);
+    --common-accent: var(--elf-accent);
+    --common-border: var(--elf-border);
+}
+
+:root[data-theme="dwarf"] {
+    --common-background: var(--dwarf-background);
+    --common-card: var(--dwarf-card);
+    --common-text-primary: var(--dwarf-text-primary);
+    --common-text-secondary: var(--dwarf-text-secondary);
+    --common-accent: var(--dwarf-accent);
+    --common-border: var(--dwarf-border);
+}
+
+:root[data-theme="man"] {
+    --common-background: var(--man-background);
+    --common-card: var(--man-card);
+    --common-text-primary: var(--man-text-primary);
+    --common-text-secondary: var(--man-text-secondary);
+    --common-accent: var(--man-accent);
+    --common-border: var(--man-border);
+}
+
+:root[data-theme="ent"] {
+    --common-background: var(--ent-background);
+    --common-card: var(--ent-card);
+    --common-text-primary: var(--ent-text-primary);
+    --common-text-secondary: var(--ent-text-secondary);
+    --common-accent: var(--ent-accent);
+    --common-border: var(--ent-border);
+}
+
+:root[data-theme="istar"] {
+    --common-background: var(--istar-background);
+    --common-card: var(--istar-card);
+    --common-text-primary: var(--istar-text-primary);
+    --common-text-secondary: var(--istar-text-secondary);
+    --common-accent: var(--istar-accent);
+    --common-border: var(--istar-border);
+}
+
 body {
     background-color: var(--common-background);
     color: var(--common-text-primary);
