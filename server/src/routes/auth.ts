@@ -14,7 +14,7 @@ authRouter.post("/register", async (req: Request, res: Response) => {
         house_clan: req.body.house_clan,
     };
 
-    if (typeof user.username !== 'string' || user.username.trim().length < 3 || user.username.trim().length > 30
+    if (typeof user.username !== 'string' || user.username.trim().length < 3 || user.username.length > 30
         || typeof user.password !== 'string' || user.password.length < 12
         || !["Hobbit", "Man", "Elf", "Dwarf", "Istar", "Ent"].includes(user.race)
         || ["Hobbit", "Man", "Elf", "Dwarf"].includes(user.race)
