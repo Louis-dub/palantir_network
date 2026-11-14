@@ -18,10 +18,11 @@ authRouter.post("/register", async (req: Request, res: Response) => {
         || typeof user.password !== 'string' || user.password.length < 12
         || !["Hobbit", "Man", "Elf", "Dwarf", "Istar", "Ent"].includes(user.race)
         || ["Hobbit", "Man", "Elf", "Dwarf"].includes(user.race)
-        && (typeof user.house_clan !== 'string' || user.house_clan.length === 0
-            || typeof user.kingdom !== 'string' || user.kingdom.length === 0
-            || typeof user.profession !== 'string' || user.profession.length === 0)
-        || ["Istar", "Ent"].includes(user.race) && (user.house_clan || user.kingdom || user.profession)) {
+        && (typeof user.house_clan !== 'string' || user.house_clan.trim().length === 0
+            || typeof user.kingdom !== 'string' || user.kingdom.trim().length === 0
+            || typeof user.profession !== 'string' || user.profession.trim().length === 0)
+        || ["Istar", "Ent"].includes(user.race)
+        && (user.house_clan !== null || user.kingdom !== null || user.profession)) {
         res.status(400).json({ error: "Invaid informations." });
         return;
     }
@@ -42,6 +43,7 @@ authRouter.post("/register", async (req: Request, res: Response) => {
         if (typeof error === 'object' && error !== null
             && 'code' in error && error.code === "23505") {
             res.status(409).json({ error: "Username already exists." });
+            return;
         }
         console.error(error);
         res.status(500).json({ error: "Internal server error."});
