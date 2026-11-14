@@ -101,10 +101,10 @@ authRouter.post("/login", async (req: Request, res: Response) => {
             user: {
                 id: account.id,
                 username: account.username,
-            race: account.race,
-            kingdom: account.kingdom,
-            profession: account.profession,
-            house_clan: account.house_clan,
+                race: account.race,
+                kingdom: account.kingdom,
+                profession: account.profession,
+                house_clan: account.house_clan,
             }
         });
     } catch (error) {
