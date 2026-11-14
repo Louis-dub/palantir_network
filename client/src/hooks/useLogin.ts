@@ -9,5 +9,8 @@ export type LoginUser = {
 export default function useLogin() {
     return useMutation<LoginResponse, Error, LoginUser>({
         mutationFn: login,
+        onSuccess: (result) => {
+            localStorage.setItem("token", JSON.stringify(result.token));
+        }
     });
 }
