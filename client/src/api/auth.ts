@@ -1,3 +1,5 @@
+import type { LoginUser } from "../hooks/useLogin";
+
 export type LoginResponse = {
     token: string;
     user: {
@@ -10,7 +12,7 @@ export type LoginResponse = {
     };
 };
 
-export async function login(username: string, password: string): Promise<LoginResponse> {
+export async function login({username, password}: LoginUser): Promise<LoginResponse> {
     const user = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
