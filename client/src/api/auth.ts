@@ -1,16 +1,21 @@
-import type { LoginUser } from "../hooks/useLogin";
+export type User = {
+    id: string;
+    usename: string;
+    race: string;
+    profession: string | null;
+    kingdom: string | null;
+    house_clan: string | null;
+}
 
 export type LoginResponse = {
     token: string;
-    user: {
-        id: number;
-        username: string;
-        race: string;
-        profession: string | null;
-        kingdom: string | null;
-        house_clan: string | null;
-    };
+    user: User;
 };
+
+export type LoginUser = {
+    username: string;
+    password: string;
+}
 
 export async function login({username, password}: LoginUser): Promise<LoginResponse> {
     const user = await fetch("/api/auth/login", {
