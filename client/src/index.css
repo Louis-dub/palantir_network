@@ -61,6 +61,15 @@
 }
 
 :root[data-theme="elf"] {
+    --common-background: var(--hobbit-background);
+    --common-card: var(--hobbit-card);
+    --common-text-primary: var(--hobbit-text-primary);
+    --common-text-secondary: var(--hobbit-text-secondary);
+    --common-accent: var(--hobbit-accent);
+    --common-border: var(--hobbit-border);
+}
+
+:root[data-theme="elf"] {
     --common-background: var(--elf-background);
     --common-card: var(--elf-card);
     --common-text-primary: var(--elf-text-primary);
