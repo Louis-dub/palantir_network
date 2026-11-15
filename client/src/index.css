@@ -60,7 +60,7 @@
     --common-border: var(--general-border);
 }
 
-:root[data-theme="elf"] {
+:root[data-theme="hobbit"] {
     --common-background: var(--hobbit-background);
     --common-card: var(--hobbit-card);
     --common-text-primary: var(--hobbit-text-primary);
