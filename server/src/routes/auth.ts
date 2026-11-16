@@ -5,6 +5,18 @@ import argon2 from "argon2";
 
 const authRouter = Router();
 
+function createToken(id: number, jwtSecret: string) {
+    return jwt.sign(
+        {},
+        jwtSecret,
+        {
+            subject: String(id),
+            expiresIn: "1h",
+            algorithm: "HS256",
+        }
+    );
+}
+
 authRouter.post("/register", async (req: Request, res: Response) => {
     const user = {
         username: req.body.username,
@@ -33,13 +45,32 @@ authRouter.post("/register", async (req: Request, res: Response) => {
             type: argon2.argon2id,
         });
 
+        const jwtSecret = process.env.JWT_SECRET;
+
+        if (!jwtSecret)
+            throw new Error("JWT_SECRET is missing");
+
         const result = await pool.query(`
             INSERT INTO users (username, password_hash, race, profession, kingdom, house_clan)
             VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING id, username, race, kingdom, profession, house_clan;
         `, [user.username, pwdHash, user.race, user.profession, user.kingdom, user.house_clan]);
 
-        res.status(201).json(result.rows[0]);
+        const account = result.rows[0];
+        
+        const token = createToken(account.id, jwtSecret);
+
+        res.status(201).json({
+            token,
+            user: {
+                id: account.id,
+                username: account.username,
+                race: account.race,
+                kingdom: account.kingdom,
+                profession: account.profession,
+                house_clan: account.house_clan,
+            }
+        });
     } catch (error) {
         if (typeof error === 'object' && error !== null
             && 'code' in error && error.code === "23505") {
@@ -63,6 +94,11 @@ authRouter.post("/login", async (req: Request, res: Response) => {
     }
 
     try {
+        const jwtSecret = process.env.JWT_SECRET;
+
+        if (!jwtSecret)
+            throw new Error("JWT_SECRET is missing");
+
         const result = await pool.query(`
             SELECT id, username, password_hash, race, kingdom, profession, house_clan
             FROM users
@@ -82,20 +118,8 @@ authRouter.post("/login", async (req: Request, res: Response) => {
             return;
         }
 
-        const jwtSecret = process.env.JWT_SECRET;
+        const token = createToken(account.id, jwtSecret);
 
-        if (!jwtSecret)
-            throw new Error("JWT_SECRET is missing");
-
-        const token = jwt.sign(
-            {},
-            jwtSecret,
-            {
-                subject: String(account.id),
-                expiresIn: "1h",
-                algorithm: "HS256",
-            }
-        );
         res.status(200).json({
             token,
             user: {
