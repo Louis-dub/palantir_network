@@ -17,6 +17,15 @@ export type LoginUser = {
     password: string;
 }
 
+export type RegisterUser = {
+    username: string;
+    password: string;
+    race: string;
+    profession: string | null;
+    kingdom: string | null;
+    house_clan: string | null;
+}
+
 export async function login({username, password}: LoginUser): Promise<LoginResponse> {
     const user = await fetch("/api/auth/login", {
         method: "POST",
@@ -31,3 +40,25 @@ export async function login({username, password}: LoginUser): Promise<LoginRespo
 
     return user.json();
 };
+
+export async function register({
+    username,
+    password,
+    race,
+    profession,
+    kingdom,
+    house_clan
+}: RegisterUser): Promise<LoginResponse> {
+    const user = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, race, profession, kingdom, house_clan }),
+    });
+
+    if (!user.ok) {
+        const errorResponse: { error: string } = await user.json();
+        throw new Error(errorResponse.error);
+    }
+
+    return user.json();
+}
