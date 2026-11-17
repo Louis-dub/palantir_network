@@ -1,4 +1,4 @@
-import { useState, type SubmitEvent } from "react";
+import { useEffect, useState, type SubmitEvent } from "react";
 import useRegister from "../hooks/useRegister";
 
 export default function RegisterForm() {
@@ -9,12 +9,12 @@ export default function RegisterForm() {
     const [profession, setProfession] = useState<string>("");
     const [houseClan, setHouseClan] = useState<string>("");
     const races = ["Hobbit", "Man", "Elf", "Dwarf", "Ent", "Istar"];
-    const elfClan = ["Nandor", "Tawarwaith", "Laegeldrim", "Sindar", "Elgath", "Iathrim", "Mithrim", "Falathrim"];
+    const elfClan = ["Nandor", "Tawarwaith", "Laegeldrim", "Sindar", "Eglath", "Iathrim", "Mithrim", "Falathrim"];
     const elfKingdom = ["Lothlórien", "Woodland Realm", "Rivendell", "Dorwinion"];
     const manClan = ["House of Bëor", "House of Hador", "Númenórean", "Free man", "Rohirrim"];
     const manKingdom = ["Númenor", "Gondor", "Arnor", "Bree-land", "Rohan", "Dale", "Woodman of Western Mirkwood", "Beornings"];
     const dwarfClan = ["Longbeards", "Firebeards", "Broadbeams", "Ironfists", "Stiffbeards", "Blacklocks", "Stonefoots"];
-    const dwarfKingdom = ["Kahzad-dûm", "Grey Mountains", "Erebor", "Blue Mountains", "Iron Hills"];
+    const dwarfKingdom = ["Khazad-dûm", "Grey Mountains", "Erebor", "Blue Mountains", "Iron Hills"];
     const hobbitClan = ["Baggins", "Took", "Gamgee", "Brandybuck", "Cotton", "Sackville-Baggins", "Chubb-Baggins", "Proudfoot"];
     const hobbitKingdom = ["Vale of Anduin", "Angle", "Swanfleet", "Weather Hills", "Bree-land", "The Shire", "Buckland"];
     const register = useRegister();
@@ -33,26 +33,30 @@ export default function RegisterForm() {
         });
     }
 
-    switch (race) {
-        case "Elf":
-            raceClan = elfClan;
-            raceKingdom = elfKingdom;
-            break;
-        case "Man":
-            raceClan = manClan;
-            raceKingdom = manKingdom;
-            break;
-        case "Dwarf":
-            raceClan = dwarfClan;
-            raceKingdom = dwarfKingdom;
-            break;
-        case "Hobbit":
-            raceClan = hobbitClan;
-            raceKingdom = hobbitKingdom;
-            break;
-        default:
-            break;
-    }
+    useEffect(() => {
+        switch (race) {
+            case "Elf":
+                raceClan = elfClan;
+                raceKingdom = elfKingdom;
+                break;
+            case "Man":
+                raceClan = manClan;
+                raceKingdom = manKingdom;
+                break;
+            case "Dwarf":
+                raceClan = dwarfClan;
+                raceKingdom = dwarfKingdom;
+                break;
+            case "Hobbit":
+                raceClan = hobbitClan;
+                raceKingdom = hobbitKingdom;
+                break;
+            default:
+                raceClan = [];
+                raceKingdom = [];
+                break;
+        }
+    }, [race])
 
     return (
         <div className="grid min-h-screen place-items-center px-4 py-10">
@@ -125,7 +129,7 @@ export default function RegisterForm() {
                                 onChange={e => setRace(e.target.value)}
                                 className="w-full rounded-lg border border-[var(--common-border)] bg-[var(--common-background)] px-4 py-3 text-[var(--common-text-primary)]"
                             >
-                                <option value="" disabled selected hidden></option>
+                                <option value="" disabled hidden></option>
                                 {races.map(race => <option key={race} value={race}>{race}</option>)}
                             </select>
                         </div>
@@ -147,7 +151,7 @@ export default function RegisterForm() {
                                         onChange={e => setHouseClan(e.target.value)}
                                         className="w-full rounded-lg border border-[var(--common-border)] bg-[var(--common-background)] px-4 py-3 text-[var(--common-text-primary)]"
                                     >
-                                        <option value="" disabled selected hidden></option>
+                                        <option value="" disabled hidden></option>
                                         {raceClan.map(clan => <option key={clan} value={clan}>{clan}</option>)}
                                     </select>
                                 </div>
@@ -169,7 +173,7 @@ export default function RegisterForm() {
                                         onChange={e => setKingdom(e.target.value)}
                                         className="w-full rounded-lg border border-[var(--common-border)] bg-[var(--common-background)] px-4 py-3 text-[var(--common-text-primary)]"
                                     >
-                                        <option value="" disabled selected hidden></option>
+                                        <option value="" disabled hidden></option>
                                         {raceKingdom.map(rKingdom => <option key={rKingdom} value={rKingdom}>{rKingdom}</option>)}
                                     </select>
                                 </div>
