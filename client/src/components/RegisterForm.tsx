@@ -1,7 +1,11 @@
-import { useEffect, useState, type SubmitEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import useRegister from "../hooks/useRegister";
 
-export default function RegisterForm() {
+type RegisterFromLoginProps = {
+    onShowLogin: () => void;
+}
+
+export default function RegisterForm({ onShowLogin }: RegisterFromLoginProps) {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [race, setRace] = useState<string>("");
@@ -33,30 +37,28 @@ export default function RegisterForm() {
         });
     }
 
-    useEffect(() => {
-        switch (race) {
-            case "Elf":
-                raceClan = elfClan;
-                raceKingdom = elfKingdom;
-                break;
-            case "Man":
-                raceClan = manClan;
-                raceKingdom = manKingdom;
-                break;
-            case "Dwarf":
-                raceClan = dwarfClan;
-                raceKingdom = dwarfKingdom;
-                break;
-            case "Hobbit":
-                raceClan = hobbitClan;
-                raceKingdom = hobbitKingdom;
-                break;
-            default:
-                raceClan = [];
-                raceKingdom = [];
-                break;
-        }
-    }, [race])
+    switch (race) {
+        case "Elf":
+            raceClan = elfClan;
+            raceKingdom = elfKingdom;
+            break;
+        case "Man":
+            raceClan = manClan;
+            raceKingdom = manKingdom;
+            break;
+        case "Dwarf":
+            raceClan = dwarfClan;
+            raceKingdom = dwarfKingdom;
+            break;
+        case "Hobbit":
+            raceClan = hobbitClan;
+            raceKingdom = hobbitKingdom;
+            break;
+        default:
+            raceClan = [];
+            raceKingdom = [];
+            break;
+    }
 
     return (
         <div className="grid min-h-screen place-items-center px-4 py-10">
@@ -220,9 +222,9 @@ export default function RegisterForm() {
 
                 <p className="mt-6 text-center text-sm text-[var(--common-text-secondary)]">
                     The Palantír know you ?{" "}
-                    <a href="#" className="font-medium text-[var(--common-accent)] hover:underline">
+                    <button type="button" onClick={onShowLogin} className="font-medium text-[var(--common-accent)] hover:underline">
                         Let him look at you anew.
-                    </a>
+                    </button>
                 </p>
             </div>
         </div>

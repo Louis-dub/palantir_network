@@ -1,7 +1,11 @@
 import { useState, type SubmitEvent } from "react";
 import useLogin from "../hooks/useLogin";
 
-export default function LoginForm() {
+type LoginFormRegsiterProps = {
+    onShowRegister: () => void;
+}
+
+export default function LoginForm({ onShowRegister }: LoginFormRegsiterProps) {
     const [usernameInput, setUsernameInput] = useState("");
     const [pwdInput, setPwdInput] = useState("");
     const login = useLogin();
@@ -82,9 +86,9 @@ export default function LoginForm() {
 
                 <p className="mt-6 text-center text-sm text-[var(--common-text-secondary)]">
                     The Palantír doesn't recognise you ?{" "}
-                    <a href="#" className="font-medium text-[var(--common-accent)] hover:underline">
+                    <button type="button" onClick={onShowRegister} className="font-medium text-[var(--common-accent)] hover:underline">
                         Let him get to know you.
-                    </a>
+                    </button>
                 </p>
             </div>
         </div>
