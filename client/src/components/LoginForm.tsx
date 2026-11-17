@@ -23,7 +23,7 @@ export default function LoginForm() {
                             Palantír
                         </p>
                         <h1 className="text-2xl font-semibold leading-tight text-[var(--common-text-primary)] sm:text-3xl">
-                            You who return to the Palantír, prove that the Palantír knows you.
+                            You, who return to the Palantír, prove that the Palantír knows you.
                         </h1>
                     </div>
 
@@ -81,7 +81,7 @@ export default function LoginForm() {
                 </form>
 
                 <p className="mt-6 text-center text-sm text-[var(--common-text-secondary)]">
-                    The Palantír doesn't recognise you.{" "}
+                    The Palantír doesn't recognise you ?{" "}
                     <a href="#" className="font-medium text-[var(--common-accent)] hover:underline">
                         Let him get to know you.
                     </a>
