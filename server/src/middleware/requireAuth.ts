@@ -1,6 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { JsonWebTokenError } from "jsonwebtoken";
 
 export function requireAuth(req: Request, res: Response, next: NextFunction): void {
     const auth = req.get("Authorization");
@@ -34,7 +33,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
         req.authUserId = sub;
         next();
     } catch (error) {
-        if (error instanceof JsonWebTokenError) {
+        if (error instanceof jwt.JsonWebTokenError) {
             res.status(401).json({ error: "Invalid or expired token." });
             return;
         }
