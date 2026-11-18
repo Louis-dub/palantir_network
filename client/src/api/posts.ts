@@ -13,7 +13,7 @@ export async function getPosts(): Promise<Post[]> {
     return posts.json();
 }
 
-export async function createPost(content: string) {
+export async function createPostApi(content: string) {
     const token = sessionStorage.getItem("token");
     const response = await fetch("/api/posts", {
         method: "POST",

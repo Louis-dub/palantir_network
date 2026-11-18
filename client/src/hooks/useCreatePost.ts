@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createPost } from "../api/posts";
+import { createPostApi } from "../api/posts";
 
-export default function useCreatePost() {
+export default function useCreatePostApi() {
     const queryKey = useQueryClient();
 
     return useMutation<void, Error, string>({
-        mutationFn: createPost,
+        mutationFn: createPostApi,
         onSuccess: () => queryKey.invalidateQueries({ queryKey: ["posts"] }),
     });
 }
