@@ -28,14 +28,14 @@ export default function CreatePost() {
     }, [isOpen]);
 
     return (
-        <section>
+        <section className="w-[100%]">
             <button
                 type="button"
                 onClick={() => {
                     create.reset();
                     setIsOpen(true);
                 }}
-                className="inline-flex items-center gap-2 rounded-xl bg-[var(--common-accent)] px-5 py-3 font-semibold text-[var(--common-background)] shadow-lg transition hover:brightness-110 active:scale-[0.98]"
+                className="m-auto flex w-fit items-center gap-2 rounded-xl bg-[var(--common-accent)] px-5 py-3 font-semibold text-[var(--common-background)] shadow-lg transition hover:brightness-110 active:scale-[0.98]"
             >
                 Add Vision
                 <FaEye aria-hidden="true" />
@@ -71,7 +71,7 @@ export default function CreatePost() {
                         <textarea
                             id="post-content"
                             name="content"
-                            className="min-h-36 w-full resize-y rounded-xl border border-[var(--common-border)] bg-[var(--common-background)] px-4 py-3 text-[var(--common-text-primary)] placeholder:text-[var(--common-text-secondary)]"
+                            className="min-h-36 w-full resize-none rounded-xl border border-[var(--common-border)] bg-[var(--common-background)] px-4 py-3 text-[var(--common-text-primary)] placeholder:text-[var(--common-text-secondary)]"
                             placeholder="Write here..."
                             maxLength={256}
                             value={content}

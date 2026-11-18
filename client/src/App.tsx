@@ -4,6 +4,7 @@ import LoginForm from "./components/LoginForm";
 import PostsFeed from "./components/PostsFeed";
 import { useAuth } from "./contexts/useAuth";
 import RegisterForm from "./components/RegisterForm";
+import CreatePost from "./components/CreatePost";
 
 export default function App() {
   const {user} = useAuth();
@@ -20,6 +21,7 @@ export default function App() {
             <Header />
             <main>
               <PostsFeed />
+              <CreatePost />
             </main>
           </>)
         : form === "login"
