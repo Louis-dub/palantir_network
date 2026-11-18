@@ -31,12 +31,14 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
             res.status(401).json({ error: "Invalid or expired token." });
             return;
         }
+        req.authUserId = sub;
+        next();
     } catch (error) {
         if (error instanceof JsonWebTokenError) {
             res.status(401).json({ error: "Invalid or expired token." });
             return;
         }
         console.error(error);
-        res.status(500).json({ error: "Internal server errror." });
+        res.status(500).json({ error: "Internal server error." });
     }
 }
