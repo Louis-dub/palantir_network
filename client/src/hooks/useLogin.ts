@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { login, type LoginResponse, type LoginUser } from "../api/auth";
-import { useAuth } from "../contexts/AuthContext";
+import { useAuth } from "../contexts/useAuth";
 
 export default function useLogin() {
     const {setUser} = useAuth();

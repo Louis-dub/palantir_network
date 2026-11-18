@@ -22,8 +22,8 @@ export default function RegisterForm({ onShowLogin }: RegisterFromLoginProps) {
     const hobbitClan = ["Baggins", "Took", "Gamgee", "Brandybuck", "Cotton", "Sackville-Baggins", "Chubb-Baggins", "Proudfoot"];
     const hobbitKingdom = ["Vale of Anduin", "Angle", "Swanfleet", "Weather Hills", "Bree-land", "The Shire", "Buckland"];
     const register = useRegister();
-    let raceClan: string[] = [];
-    let raceKingdom: string[] = [];
+    let raceClan: string[];
+    let raceKingdom: string[];
 
     function handleSubmit(e: SubmitEvent) {
         e.preventDefault();

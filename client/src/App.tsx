@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import LoginForm from "./components/LoginForm";
 import PostsFeed from "./components/PostsFeed";
-import { useAuth } from "./contexts/AuthContext";
+import { useAuth } from "./contexts/useAuth";
 import RegisterForm from "./components/RegisterForm";
 
 export default function App() {
