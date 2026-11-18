@@ -45,6 +45,22 @@
     --istar-accent: #D0AD69;
     --istar-border: #4C5268;
 
+    --general-background: #111421;
+    --general-card: #1B2030;
+    --general-text-primary: #F1EEE7;
+    --general-text-secondary: #B7BDCC;
+    --general-accent: #D0AD69;
+    --general-border: #454B61;
+
+    --common-background: var(--general-background);
+    --common-card: var(--general-card);
+    --common-text-primary: var(--general-text-primary);
+    --common-text-secondary: var(--general-text-secondary);
+    --common-accent: var(--general-accent);
+    --common-border: var(--general-border);
+}
+
+:root[data-theme="hobbit"] {
     --common-background: var(--hobbit-background);
     --common-card: var(--hobbit-card);
     --common-text-primary: var(--hobbit-text-primary);
@@ -99,6 +115,23 @@
 }
 
 body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
     background-color: var(--common-background);
+    background-image:
+        radial-gradient(ellipse at 18% 12%, rgb(91 104 172 / 18%), transparent 42%),
+        radial-gradient(ellipse at 82% 78%, rgb(126 83 145 / 13%), transparent 38%);
+    background-attachment: fixed;
     color: var(--common-text-primary);
+}
+
+::selection {
+    background-color: var(--common-accent);
+    color: var(--common-background);
+}
+
+:focus-visible {
+    outline: 2px solid var(--common-accent);
+    outline-offset: 3px;
 }

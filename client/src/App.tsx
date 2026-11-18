@@ -1,13 +1,30 @@
+import { useEffect, useState } from "react";
 import Header from "./components/Header";
+import LoginForm from "./components/LoginForm";
 import PostsFeed from "./components/PostsFeed";
+import { useAuth } from "./contexts/useAuth";
+import RegisterForm from "./components/RegisterForm";
 
 export default function App() {
+  const {user} = useAuth();
+  const [form, setForm] = useState<"login" | "register">("login");
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = user?.race.toLocaleLowerCase() || "general";
+  }, [user]);
+
   return (
     <>
-      <Header />
-      <main className="mx-auto w-full max-w-5xl px-4 pb-12">
-        <PostsFeed />
-      </main>
+      {user
+        ? (<>
+            <Header />
+            <main>
+              <PostsFeed />
+            </main>
+          </>)
+        : form === "login"
+        ? <LoginForm onShowRegister={() => setForm("register")} />
+        : <RegisterForm onShowLogin={() => setForm("login")} />}
     </>
   )
 }
