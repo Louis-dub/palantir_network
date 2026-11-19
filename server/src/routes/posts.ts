@@ -18,6 +18,28 @@ router.get("/", async (req: Request, res: Response) => {
     }
 });
 
+router.get("/:id", async (req: Request, res: Response) => {
+    const userId = req.params.id;
+
+    if (!userId) {
+        res.status(400).json({ error: "User Id is required." });
+        return;
+    }
+
+    try {
+        const result = await pool.query(`
+            SELECT users.username, posts.content, posts.id, posts.created_at FROM posts
+            JOIN users ON users.id = posts.author_id
+            WHERE posts.author_id = $1
+            ORDER BY posts.created_at DESC;        
+        `, [userId]);
+        res.json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 router.post("/", requireAuth, async (req: Request, res: Response) => {
     const content = req.body.content;
 
@@ -44,7 +66,7 @@ router.post("/", requireAuth, async (req: Request, res: Response) => {
 });
 
 router.delete("/:id", requireAuth, async (req: Request, res: Response) => {
-    const postId = req.params.postId;
+    const postId = req.params.id;
     const userId = req.authUserId;
 
     if (!postId) {
@@ -53,18 +75,18 @@ router.delete("/:id", requireAuth, async (req: Request, res: Response) => {
     }
 
     try {
-        const post = await pool.query(`
+        const result = await pool.query(`
             SELECT * FROM posts
             WHERE id = $1;
         `, [postId]);
 
-        if (post.rows.length === 0 || post.rows[0].author_id !== userId) {
+        if (result.rows.length === 0 || result.rows[0].author_id !== userId) {
             res.status(403).json({ error: "Forbidden" });
             return;
         }
 
         await pool.query(`
-            DELETE FROM post WHERE id = $1;
+            DELETE FROM posts WHERE id = $1;
         `, [postId]);
         res.status(204).send();
     } catch (error) {
