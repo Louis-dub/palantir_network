@@ -43,4 +43,34 @@ router.post("/", requireAuth, async (req: Request, res: Response) => {
     }
 });
 
+router.delete("/:id", requireAuth, async (req: Request, res: Response) => {
+    const postId = req.params.postId;
+    const userId = req.authUserId;
+
+    if (!postId) {
+        res.status(400).json({ error: "Post Id is required." });
+        return;
+    }
+
+    try {
+        const post = await pool.query(`
+            SELECT * FROM posts
+            WHERE id = $1;
+        `, [postId]);
+
+        if (post.rows.length === 0 || post.rows[0].author_id !== userId) {
+            res.status(403).json({ error: "Forbidden" });
+            return;
+        }
+
+        await pool.query(`
+            DELETE FROM post WHERE id = $1;
+        `, [postId]);
+        res.status(204).send();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error." });
+    }
+});
+
 export default router;
