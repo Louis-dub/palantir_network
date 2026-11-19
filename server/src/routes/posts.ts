@@ -1,5 +1,6 @@
 import { Router, type Request, type Response } from "express";
 import { pool } from "../db/pool.js";
+import { requireAuth } from "../middleware/requireAuth.js";
 
 const router = Router();
 
@@ -17,16 +18,13 @@ router.get("/", async (req: Request, res: Response) => {
     }
 });
 
-router.post("/", async (req: Request, res: Response) => {
-    const posts = {
-        authorId: req.body.authorId,
-        content: req.body.content,
-    };
+router.post("/", requireAuth, async (req: Request, res: Response) => {
+    const content = req.body.content;
 
-    if (!Number.isInteger(posts.authorId) || posts.authorId <= 0
-        || typeof posts.content !== "string"
-        || posts.content.trim().length === 0
-        || posts.content.length > 256) {
+    if (typeof content !== "string"
+        || content.trim().length === 0
+        || content.length > 256
+        || !req.authUserId) {
         res.status(400).json({ error: "Invalid post." });
         return;
     }
@@ -36,7 +34,7 @@ router.post("/", async (req: Request, res: Response) => {
             INSERT INTO posts (author_id, content)
             VALUES ($1, $2)
             RETURNING id, author_id, content, created_at;
-        `, [posts.authorId, posts.content]);
+        `, [req.authUserId, content]);
 
         res.status(201).json(result.rows[0]);
     } catch (error) {
