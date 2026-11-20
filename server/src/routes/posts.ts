@@ -7,10 +7,32 @@ const router = Router();
 router.get("/", async (req: Request, res: Response) => {
     try {
         const result = await pool.query(`
-            SELECT users.username, posts.content, posts.id, posts.created_at FROM posts
+            SELECT users.username, posts.author_id, posts.content, posts.id, posts.created_at FROM posts
             JOIN users ON users.id = posts.author_id
             ORDER BY posts.created_at DESC;
         `);
+        res.json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+router.get("/:id", async (req: Request, res: Response) => {
+    const userId = req.params.id;
+
+    if (!userId) {
+        res.status(400).json({ error: "User Id is required." });
+        return;
+    }
+
+    try {
+        const result = await pool.query(`
+            SELECT users.username, posts.author_id, posts.content, posts.id, posts.created_at FROM posts
+            JOIN users ON users.id = posts.author_id
+            WHERE posts.author_id = $1
+            ORDER BY posts.created_at DESC;        
+        `, [userId]);
         res.json(result.rows);
     } catch (error) {
         console.error(error);
@@ -40,6 +62,36 @@ router.post("/", requireAuth, async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal server error "});
+    }
+});
+
+router.delete("/:id", requireAuth, async (req: Request, res: Response) => {
+    const postId = req.params.id;
+    const userId = req.authUserId;
+
+    if (!postId) {
+        res.status(400).json({ error: "Post Id is required." });
+        return;
+    }
+
+    try {
+        const result = await pool.query(`
+            SELECT * FROM posts
+            WHERE id = $1;
+        `, [postId]);
+
+        if (result.rows.length === 0 || result.rows[0].author_id !== userId) {
+            res.status(403).json({ error: "Forbidden" });
+            return;
+        }
+
+        await pool.query(`
+            DELETE FROM posts WHERE id = $1;
+        `, [postId]);
+        res.status(204).send();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error." });
     }
 });
 
