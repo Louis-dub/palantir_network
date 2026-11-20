@@ -38,3 +38,19 @@ export async function createPostApi(content: string) {
         throw new Error(errorResponse.error);
     }
 }
+
+export async function deletePostApi(id: number) {
+    const token = sessionStorage.getItem("token");
+    const response = await fetch(`/api/posts/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorResponse: { error: string } = await response.json();
+        throw new Error(errorResponse.error);
+    }
+}
