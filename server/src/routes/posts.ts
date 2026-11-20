@@ -7,7 +7,7 @@ const router = Router();
 router.get("/", async (req: Request, res: Response) => {
     try {
         const result = await pool.query(`
-            SELECT users.username, posts.content, posts.id, posts.created_at FROM posts
+            SELECT users.username, posts.author_id, posts.content, posts.id, posts.created_at FROM posts
             JOIN users ON users.id = posts.author_id
             ORDER BY posts.created_at DESC;
         `);
@@ -28,7 +28,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 
     try {
         const result = await pool.query(`
-            SELECT users.username, posts.content, posts.id, posts.created_at FROM posts
+            SELECT users.username, posts.author_id, posts.content, posts.id, posts.created_at FROM posts
             JOIN users ON users.id = posts.author_id
             WHERE posts.author_id = $1
             ORDER BY posts.created_at DESC;        

@@ -1,8 +1,10 @@
+import { useAuth } from "../contexts/useAuth";
 import usePosts from "../hooks/usePosts";
 import PostCard from "./PostCard";
 
 export default function PostsFeed() {
     const {data: posts, isLoading, error} = usePosts();
+    const {user} = useAuth();
 
     return (
         <section className="w-full mx-auto p-4 space-y-4">
@@ -19,7 +21,7 @@ export default function PostsFeed() {
                     No posts published.
                 </p>
                 : posts?.map(post => (
-                    <PostCard post={post} key={post.id}/>
+                    <PostCard post={post} btnDelete={post.author_id === user.id} key={post.id}/>
                 ))
             }
         </section>
