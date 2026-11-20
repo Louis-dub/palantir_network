@@ -2,10 +2,11 @@
 
 Palantír is a social network simulation set in **The Lord of the Rings** universe.
 
-## Features (v1.O)
+## Features (v1.1)
 - Create an account with your race, kingdom, profession, and house or clan
 - Log in to your account
 - Write and publish post
+- Delete your posts
 
 ## Overview
 
