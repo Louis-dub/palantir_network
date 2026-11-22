@@ -1,5 +1,5 @@
 import { useAuth } from "../contexts/useAuth";
-import usePosts from "../hooks/usePosts";
+import usePosts from "../hooks/posts/usePosts";
 import PostCard from "./PostCard";
 
 export default function PostsFeed() {

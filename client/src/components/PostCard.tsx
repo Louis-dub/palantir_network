@@ -1,6 +1,6 @@
 import { FaEyeSlash } from "react-icons/fa";
 import type { Post } from "../api/posts";
-import useDeletePostApi from "../hooks/useDeletePost";
+import useDeletePostApi from "../hooks/posts/useDeletePost";
 
 type PostCardProps = {
     post: Post;
