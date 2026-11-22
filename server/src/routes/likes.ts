@@ -14,7 +14,7 @@ likesRouter.get("/:id", async (req: Request, res: Response) => {
 
     try {
         const result = await pool.query(`
-            SELECT post_id FROM likes
+            SELECT id, user_id, post_id FROM likes
             WHERE user_id = $1;
         `, [userId]);
 
