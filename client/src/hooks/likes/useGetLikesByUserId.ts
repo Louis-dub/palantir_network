@@ -1,0 +1,9 @@
+import { useQuery } from "@tanstack/react-query";
+import { getLikesByUserId } from "../../api/likes";
+
+export default function useGetLikesByUserId(userId: number) {
+    return useQuery({
+        queryKey: ["like", userId],
+        queryFn: () => getLikesByUserId(userId),
+    });
+}
