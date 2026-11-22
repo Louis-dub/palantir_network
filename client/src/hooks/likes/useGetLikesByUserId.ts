@@ -3,7 +3,7 @@ import { getLikesByUserId } from "../../api/likes";
 
 export default function useGetLikesByUserId(userId: number) {
     return useQuery({
-        queryKey: ["like", userId],
+        queryKey: ["likes", userId],
         queryFn: () => getLikesByUserId(userId),
     });
 }
