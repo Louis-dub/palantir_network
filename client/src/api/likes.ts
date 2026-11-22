@@ -5,9 +5,25 @@ export type Like = {
 }
 
 export async function getLikesByUserId(userId: number): Promise<Like[]> {
-    const likes = await fetch(`/api/likes/${userId}`);
+    const response = await fetch(`/api/likes/${userId}`);
 
-    if (!likes.ok)
-        throw new Error("Could not acces to your likes.");
-    return likes.json();
+    if (!response.ok)
+        throw new Error("Could not access to your likes.");
+    return response.json();
+}
+
+export async function createLikePostApi(postId: number) {
+    const token = sessionStorage.getItem("token");
+    const response = await fetch(`/api/likes/${postId}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorResponse: { error: string } = await response.json();
+        throw new Error(errorResponse.error);
+    }
 }
