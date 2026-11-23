@@ -3,6 +3,7 @@ import type { Post } from "../api/posts";
 import useDeletePostApi from "../hooks/posts/useDeletePost";
 import { useState } from "react";
 import useCreateLikePostApi from "../hooks/likes/useCreateLikePostApi";
+import useDeleteLikePostApi from "../hooks/likes/useDeleteLikePostApi";
 
 type PostCardProps = {
     post: Post;
@@ -13,6 +14,7 @@ type PostCardProps = {
 export default function PostCard({ post, btnDelete, btnLike }: PostCardProps) {
     const {mutate: deletePost} = useDeletePostApi();
     const {mutate: createLike} = useCreateLikePostApi();
+    const {mutate: deleteLike} = useDeleteLikePostApi();
     const [like, setLike] = useState<boolean>(btnLike);
 
     function handleClickEye() {
@@ -20,9 +22,10 @@ export default function PostCard({ post, btnDelete, btnLike }: PostCardProps) {
     }
 
     function handeClickStar() {
-        if (like)
-            alert("You have already like this post.");
-        else {
+        if (like) {
+            deleteLike(post.id);
+            setLike(false);
+        } else {
             createLike(post.id);
             setLike(true);
         }
