@@ -27,3 +27,19 @@ export async function createLikePostApi(postId: number) {
         throw new Error(errorResponse.error);
     }
 }
+
+export async function deleteLikePostApi(postId: number) {
+    const token = sessionStorage.getItem("token");
+    const response = await fetch(`/api/likes/${postId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });;
+
+    if (!response.ok) {
+        const errorRespone: { error: string } = await response.json();
+        throw new Error(errorRespone.error);
+    }
+}
