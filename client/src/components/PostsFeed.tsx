@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useAuth } from "../contexts/useAuth";
 import useGetLikesByUserId from "../hooks/likes/useGetLikesByUserId";
 import usePosts from "../hooks/posts/usePosts";
@@ -9,7 +8,6 @@ export default function PostsFeed() {
     const {user} = useAuth();
     const {data: likes = [], isLoading: isLoadingLikes} = useGetLikesByUserId(user?.id);
 
-    useEffect(() => console.log("Likes: ", JSON.stringify(likes)), [likes]);
     return (
         <section className="w-full mx-auto p-4 space-y-4">
             {isLoadingPosts || isLoadingLikes || !user
