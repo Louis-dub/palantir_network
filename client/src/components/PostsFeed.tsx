@@ -1,14 +1,16 @@
 import { useAuth } from "../contexts/useAuth";
-import usePosts from "../hooks/usePosts";
+import useGetLikesByUserId from "../hooks/likes/useGetLikesByUserId";
+import usePosts from "../hooks/posts/usePosts";
 import PostCard from "./PostCard";
 
 export default function PostsFeed() {
-    const {data: posts, isLoading, error} = usePosts();
+    const {data: posts, isLoading: isLoadingPosts, error} = usePosts();
     const {user} = useAuth();
+    const {data: likes = [], isLoading: isLoadingLikes} = useGetLikesByUserId(user?.id);
 
     return (
         <section className="w-full mx-auto p-4 space-y-4">
-            {isLoading
+            {isLoadingPosts || isLoadingLikes || !user
                 ? <p className="border rounded-lg p-4 bg-[var(--common-card)] border-[var(--common-border)] text-[var(--common-text-secondary)]">
                     Loading...
                 </p>
@@ -21,7 +23,12 @@ export default function PostsFeed() {
                     No posts published.
                 </p>
                 : posts?.map(post => (
-                    <PostCard post={post} btnDelete={post.author_id === user.id} key={post.id}/>
+                    <PostCard
+                        post={post}
+                        btnDelete={post.author_id === user.id}
+                        btnLike={likes.find(like => like.post_id === post.id) !== undefined}
+                        key={post.id}
+                    />
                 ))
             }
         </section>

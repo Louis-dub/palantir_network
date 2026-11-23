@@ -1,5 +1,5 @@
 import { useEffect, useState, type SubmitEvent } from "react";
-import useCreatePostApi from "../hooks/useCreatePost";
+import useCreatePostApi from "../hooks/posts/useCreatePost";
 import { FaEye } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 

@@ -2,11 +2,12 @@
 
 Palantír is a social network simulation set in **The Lord of the Rings** universe.
 
-## Features (v1.1)
+## Features (v1.2)
 - Create an account with your race, kingdom, profession, and house or clan
 - Log in to your account
 - Write and publish post
 - Delete your posts
+- Like a post
 
 ## Overview
 
@@ -62,6 +63,7 @@ docker compose exec -T db psql -U commonroom -d commonroom < database/migrations
 docker compose exec -T db psql -U commonroom -d commonroom < database/migrations/003_add_posts_primary_key.sql
 docker compose exec -T db psql -U commonroom -d commonroom < database/migrations/004_update_user_profile.sql
 docker compose exec -T db psql -U commonroom -d commonroom < database/migrations/005_validate_user_profile.sql
+docker compose exec -T db psql -U commonroom -d commonroom < database/migrations/006_create_likes.sql
 ```
 
 **Lauch the Backend**

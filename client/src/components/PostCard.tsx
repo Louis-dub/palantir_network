@@ -1,17 +1,35 @@
-import { FaEyeSlash } from "react-icons/fa";
+import { FaEyeSlash, FaRegStar, FaStar } from "react-icons/fa";
 import type { Post } from "../api/posts";
-import useDeletePostApi from "../hooks/useDeletePost";
+import useDeletePostApi from "../hooks/posts/useDeletePost";
+import { useState } from "react";
+import useCreateLikePostApi from "../hooks/likes/useCreateLikePostApi";
+import useDeleteLikePostApi from "../hooks/likes/useDeleteLikePostApi";
 
 type PostCardProps = {
     post: Post;
     btnDelete: boolean;
+    btnLike: boolean;
 };
 
-export default function PostCard({ post, btnDelete }: PostCardProps) {
+export default function PostCard({ post, btnDelete, btnLike }: PostCardProps) {
     const {mutate: deletePost} = useDeletePostApi();
+    const {mutate: createLike} = useCreateLikePostApi();
+    const {mutate: deleteLike} = useDeleteLikePostApi();
+    const [like, setLike] = useState<boolean>(btnLike);
 
-    function handleClick() {
+    function handleClickEye() {
         deletePost(post.id);
+    }
+
+    function handeClickStar() {
+        if (like) {
+            deleteLike(post.id);
+            setLike(false);
+        } else {
+            createLike(post.id);
+            setLike(true);
+        }
+            
     }
 
     return (
@@ -23,13 +41,26 @@ export default function PostCard({ post, btnDelete }: PostCardProps) {
                 {btnDelete && (
                     <button
                         className="hover:scale-110 active:scale-95 transition-all ease-out"
-                        onClick={handleClick}
+                        onClick={handleClickEye}
                     >
                         <FaEyeSlash size={24} />
                     </button>
                 )}
             </div>
-            <p>{post.content}</p>
+            <div className="flex justify-between items-center w-[100%]">
+                <p>{post.content}</p>
+                {!btnDelete && (
+                    <button
+                        className="hover:scale-110 active:scale-95 transition-all ease-out"
+                        onClick={handeClickStar}
+                    >
+                        {!like
+                            ? <FaRegStar size={24} />
+                            : <FaStar size={24} /> 
+                        }
+                    </button>
+                )}
+            </div>
         </article>
     )
 }
