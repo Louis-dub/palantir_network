@@ -1,16 +1,18 @@
+import { useEffect } from "react";
 import { useAuth } from "../contexts/useAuth";
 import useGetLikesByUserId from "../hooks/likes/useGetLikesByUserId";
 import usePosts from "../hooks/posts/usePosts";
 import PostCard from "./PostCard";
 
 export default function PostsFeed() {
-    const {data: posts, isLoading, error} = usePosts();
+    const {data: posts, isLoading: isLoadingPosts, error} = usePosts();
     const {user} = useAuth();
-    const {data: likes = []} = useGetLikesByUserId(user?.id);
+    const {data: likes = [], isLoading: isLoadingLikes} = useGetLikesByUserId(user?.id);
 
+    useEffect(() => console.log("Likes: ", JSON.stringify(likes)), [likes]);
     return (
         <section className="w-full mx-auto p-4 space-y-4">
-            {isLoading || !user
+            {isLoadingPosts || isLoadingLikes || !user
                 ? <p className="border rounded-lg p-4 bg-[var(--common-card)] border-[var(--common-border)] text-[var(--common-text-secondary)]">
                     Loading...
                 </p>
@@ -26,7 +28,7 @@ export default function PostsFeed() {
                     <PostCard
                         post={post}
                         btnDelete={post.author_id === user.id}
-                        btnLike={likes.find(like => like.postId === post.id) !== undefined}
+                        btnLike={likes.find(like => like.post_id === post.id) !== undefined}
                         key={post.id}
                     />
                 ))

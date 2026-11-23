@@ -2,6 +2,7 @@ import { FaEyeSlash, FaRegStar, FaStar } from "react-icons/fa";
 import type { Post } from "../api/posts";
 import useDeletePostApi from "../hooks/posts/useDeletePost";
 import { useState } from "react";
+import useCreateLikePostApi from "../hooks/likes/useCreateLikePostApi";
 
 type PostCardProps = {
     post: Post;
@@ -11,10 +12,21 @@ type PostCardProps = {
 
 export default function PostCard({ post, btnDelete, btnLike }: PostCardProps) {
     const {mutate: deletePost} = useDeletePostApi();
+    const {mutate: createLike} = useCreateLikePostApi();
     const [like, setLike] = useState<boolean>(btnLike);
 
     function handleClickEye() {
         deletePost(post.id);
+    }
+
+    function handeClickStar() {
+        if (like)
+            alert("You have already like this post.");
+        else {
+            createLike(post.id);
+            setLike(true);
+        }
+            
     }
 
     return (
@@ -37,6 +49,7 @@ export default function PostCard({ post, btnDelete, btnLike }: PostCardProps) {
                 {!btnDelete && (
                     <button
                         className="hover:scale-110 active:scale-95 transition-all ease-out"
+                        onClick={handeClickStar}
                     >
                         {!like
                             ? <FaRegStar size={24} />

@@ -1,7 +1,7 @@
 export type Like = {
     id: number;
-    userId: number;
-    postId: number;
+    user_id: number;
+    post_id: number;
 }
 
 export async function getLikesByUserId(userId: number): Promise<Like[]> {

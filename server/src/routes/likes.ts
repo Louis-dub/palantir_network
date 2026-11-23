@@ -18,7 +18,7 @@ likesRouter.get("/:id", async (req: Request, res: Response) => {
             WHERE user_id = $1;
         `, [userId]);
 
-        res.status(201).json(result.rows[0]);
+        res.status(201).json(result.rows);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Invalide internal error." });
@@ -35,10 +35,13 @@ likesRouter.post("/:id", requireAuth, async (req: Request, res: Response) => {
     }
 
     try {
-        await pool.query(`
+        const result = await pool.query(`
             INSERT INTO likes (user_id, post_id)
-            VALUE $1, $2;
+            VALUES ($1, $2)
+            RETURNING id, user_id, post_id;
         `, [userId, postId]);
+
+        res.status(201).json(result.rows[0]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal server error." });
