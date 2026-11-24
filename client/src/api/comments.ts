@@ -29,3 +29,20 @@ export async function postComments(id: number, content: string) {
         throw new Error(errorResponse.error);
     }
 }
+
+export async function deleteComments(id: number) {
+    const token = sessionStorage.getItem("token");
+    const response = await fetch(`/api/comments/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!response.ok) {
+        const errorResponse: { error: string } = await response.json();
+        throw new Error(errorResponse.error);
+    }
+}
+
