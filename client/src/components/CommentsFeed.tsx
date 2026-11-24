@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type SubmitEvent } from "react";
 import { GiScrollQuill, GiScrollUnfurled } from "react-icons/gi";
 import { RxCross2 } from "react-icons/rx";
 import useCreateComment from "../hooks/comments/useCreateComment";
+import useGetCommentsByPostId from "../hooks/comments/useGetPostsByPostId";
+import CommentCard from "./CommentCard";
 
 type CommentProps = {
     postId: number;
@@ -12,7 +14,15 @@ type CommentProps = {
 export default function CommentsFeed({ postId, userId, isPostUser }: CommentProps) {
     const [content, setContent] = useState<string>("");
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const {data: comments, isLoading, error} = useGetCommentsByPostId(postId);
     const create = useCreateComment();
+
+    function handleSubmit(e: SubmitEvent) {
+        e.preventDefault();
+        create.mutate({postId, content}, {
+            onSuccess: () => setContent("")
+        });
+    }
 
     useEffect(() => {
         const dialog = document.getElementById(`comments-${postId}`) as HTMLDialogElement;
@@ -54,7 +64,7 @@ export default function CommentsFeed({ postId, userId, isPostUser }: CommentProp
                     </button>
                 </div>
                 {!isPostUser && (
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div className="relative">
                             <textarea
                                 id={`comment-${postId}-content`}
@@ -78,6 +88,26 @@ export default function CommentsFeed({ postId, userId, isPostUser }: CommentProp
                         </div>
                     </form>
                 )}
+                {isLoading
+                    ? <p className="border rounded-lg p-4 bg-[var(--common-card)] border-[var(--common-border)] text-[var(--common-text-secondary)]">
+                                                                                                                                                         Loading...
+                      </p>
+                    : error
+                    ? <p className="border rounded-lg p-4 bg-[var(--common-card)] border-[var(--common-border)] text-[var(--common-text-secondary)]">
+                                                                                                                                                         Could not load comments.
+                      </p>
+                    : comments?.length === 0
+                    ? <p className="border rounded-lg p-4 bg-[var(--common-card)] border-[var(--common-border)] text-[var(--common-text-secondary)]">
+                                                                                                                                                         No comments published.
+                      </p>
+                    : comments?.map(comment => (
+                        <CommentCard
+                            comment={comment}
+                            btnDelete={comment.user_id === userId}
+                            key={comment.id}
+                        />
+                    ))
+                }
             </dialog>
         </>
     );

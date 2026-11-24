@@ -3,6 +3,7 @@ export type Comment = {
     user_id: number;
     post_id: number;
     content: string;
+    username: string;
 }
 
 export type CreateComment = {

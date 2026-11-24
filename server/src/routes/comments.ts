@@ -14,7 +14,7 @@ commentRouter.get("/:id", async (req: Request, res: Response) => {
 
     try {
         const result = await pool.query(`
-            SELECT comments.id, comments.user_id, users.username FROM comments
+        SELECT comments.id, comments.user_id, comments.post_id, comments.content, users.username FROM comments
             JOIN users ON comments.user_id = users.id
             WHERE comments.post_id = $1
             ORDER BY comments.created_at DESC;
