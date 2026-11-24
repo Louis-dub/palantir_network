@@ -13,7 +13,7 @@ export async function getCommentsByPostId(id: number) {
     return response.json();
 }
 
-export async function postComments(id: number, content: string) {
+export async function postComment(id: number, content: string) {
     const token = sessionStorage.getItem("token");
     const response = await fetch(`/api/comments/${id}`, {
         method: "POST",
@@ -30,7 +30,7 @@ export async function postComments(id: number, content: string) {
     }
 }
 
-export async function deleteComments(id: number) {
+export async function deleteComment(id: number) {
     const token = sessionStorage.getItem("token");
     const response = await fetch(`/api/comments/${id}`, {
         method: "DELETE",
