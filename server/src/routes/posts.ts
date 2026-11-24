@@ -11,7 +11,7 @@ router.get("/", async (req: Request, res: Response) => {
             JOIN users ON users.id = posts.author_id
             ORDER BY posts.created_at DESC;
         `);
-        res.json(result.rows);
+        res.status(200).json(result.rows);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal server error" });
