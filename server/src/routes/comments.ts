@@ -1,5 +1,6 @@
 import { Router, type Request, type Response } from "express";
 import { pool } from "../db/pool.js";
+import { requireAuth } from "../middleware/requireAuth.js";
 
 const commentRouter = Router();
 
@@ -20,6 +21,29 @@ commentRouter.get("/:id", async (req: Request, res: Response) => {
         `, [postId]);
 
         res.status(200).json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error." });
+    }
+});
+
+commentRouter.post("/:id", requireAuth, async (req: Request, res: Response) => {
+    const postId = req.params.id;
+    const content = req.body.content;
+    const userId = req.authUserId;
+
+    if (!postId || !content) {
+        res.status(400).json({ error: "Post Id and content are required." });
+        return;
+    }
+
+    try {
+        const result = await pool.query(`
+            INSERT INTO comments (user_id, post_id, content)
+            VALUES ($1, $2, $3)
+            RETURNING id, user_id, post_id, content;
+        `, [userId, postId, content]);
+        res.status(201).json(result.rows[0]);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal server error." });
