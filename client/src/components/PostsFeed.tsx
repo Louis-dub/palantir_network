@@ -27,6 +27,7 @@ export default function PostsFeed() {
                         post={post}
                         btnDelete={post.author_id === user.id}
                         btnLike={likes.find(like => like.post_id === post.id) !== undefined}
+                        userId={user.id}
                         key={post.id}
                     />
                 ))

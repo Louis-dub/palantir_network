@@ -4,16 +4,16 @@ import useDeletePostApi from "../hooks/posts/useDeletePost";
 import { useState } from "react";
 import useCreateLikePostApi from "../hooks/likes/useCreateLikePostApi";
 import useDeleteLikePostApi from "../hooks/likes/useDeleteLikePostApi";
-import { GiScrollUnfurled } from "react-icons/gi";
-import Comments from "./Comments";
+import CommentsFeed from "./CommentsFeed";
 
 type PostCardProps = {
     post: Post;
     btnDelete: boolean;
     btnLike: boolean;
+    userId: number;
 };
 
-export default function PostCard({ post, btnDelete, btnLike }: PostCardProps) {
+export default function PostCard({ post, btnDelete, btnLike, userId }: PostCardProps) {
     const {mutate: deletePost} = useDeletePostApi();
     const {mutate: createLike} = useCreateLikePostApi();
     const {mutate: deleteLike} = useDeleteLikePostApi();
@@ -52,7 +52,11 @@ export default function PostCard({ post, btnDelete, btnLike }: PostCardProps) {
             <div className="flex justify-between items-center w-[100%]">
                 <p>{post.content}</p>
                 <div className="flex justify-center gap-2">
-                    <Comments postId={post.id} isPostUser={btnDelete} />
+                    <CommentsFeed
+                        postId={post.id}
+                        isPostUser={btnDelete}
+                        userId={userId}
+                    />
                     {!btnDelete && (
                         <button
                             className="hover:scale-110 active:scale-95 transition-all ease-out"
