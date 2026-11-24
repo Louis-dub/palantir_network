@@ -2,7 +2,7 @@ export type Comment = {
     id: number;
     user_id: number;
     post_id: number;
-    content: sring;
+    content: string;
 }
 
 export async function getCommentsByPostId(id: number) {
@@ -11,4 +11,21 @@ export async function getCommentsByPostId(id: number) {
     if (!response.ok)
         throw new Error("Could not load comments.");
     return response.json();
+}
+
+export async function postComments(id: number, content: string) {
+    const token = sessionStorage.getItem("token");
+    const response = await fetch(`/api/comments/${id}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ content }),
+    });
+
+    if (!response.ok) {
+        const errorResponse: { error: string } = await response.json();
+        throw new Error(errorResponse.error);
+    }
 }
