@@ -50,4 +50,32 @@ commentRouter.post("/:id", requireAuth, async (req: Request, res: Response) => {
     }
 });
 
+commentRouter.delete("/:id", requireAuth, async (req: Request, res: Response) => {
+    const commentId = req.params.id;
+
+    if (!commentId) {
+        res.status(400).json({ error: "Comment Id is required." });
+        return;
+    }
+
+    try {
+        const result = await pool.query(`
+            SELECT * FROM comments
+            WHERE id = $1;
+        `, [commentId]);
+
+        if (result.rows.length === 0) {
+            res.status(403).json({ error: "Forbidden" });
+            return;
+        }
+        await pool.query(`
+            DELETE FROM comments WHERE id = $1;
+        `, [commentId]);
+        res.status(204).send();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error." });
+    }
+});
+
 export default commentRouter;
