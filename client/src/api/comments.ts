@@ -5,6 +5,11 @@ export type Comment = {
     content: string;
 }
 
+export type CreateComment = {
+    postId: number,
+    content: string,
+}
+
 export async function getCommentsByPostId(id: number) {
     const response = await fetch(`/api/comments/${id}`);
 
@@ -13,9 +18,9 @@ export async function getCommentsByPostId(id: number) {
     return response.json();
 }
 
-export async function postComment(id: number, content: string) {
+export async function createComment({postId, content}: CreateComment) {
     const token = sessionStorage.getItem("token");
-    const response = await fetch(`/api/comments/${id}`, {
+    const response = await fetch(`/api/comments/${postId}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
