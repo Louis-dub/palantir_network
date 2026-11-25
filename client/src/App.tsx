@@ -27,19 +27,19 @@ export default function App() {
                            setUserState={setUserState}
                        />
                        <main>
-                           {!userSearch ? (
+                           {userState.isLoading ? (
+                               <p className="border rounded-lg m-4 p-4 bg-[var(--common-card)] border-[var(--common-border)] text-[var(--common-text-secondary)]">
+                                   Loading...
+                               </p>
+                           ) : userState.error ? (
+                               <p className="border rounded-lg m-4 p-4 bg-[var(--common-card)] border-[var(--common-border)] text-[var(--common-text-secondary)]">
+                                   The Palantír does not recognise this child of Arda.
+                               </p>
+                           ) : !userSearch ? (
                                <>
                                    <PostsAll />
                                    <CreatePost />
                                </>
-                           ) : userState.isLoading ? (
-                               <p className="border rounded-lg p-4 bg-[var(--common-card)] border-[var(--common-border)] text-[var(--common-text-secondary)]">
-                                   Loading...
-                               </p>
-                           ) : userState.error ? (
-                               <p className="border rounded-lg p-4 bg-[var(--common-card)] border-[var(--common-border)] text-[var(--common-text-secondary)]">
-                                   The Palantír does not recognise this child of Arda.
-                               </p>
                            ) : <PostsByUsername userId={userSearch.id} />}
                        </main>
                    </>)

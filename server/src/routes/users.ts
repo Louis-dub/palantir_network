@@ -16,10 +16,6 @@ userRouter.get("/:username", async (req: Request, res: Response) => {
             SELECT id, username, race, kingdom, profession, house_clan FROM users
             WHERE username = $1;
         `, [username]);
-        if (result.rows.length === 0) {
-            res.status(404).json({ error: `User ${username} not found.` });
-            return;
-        }
         res.status(200).json(result.rows[0]);
     } catch (error) {
         console.error(error);

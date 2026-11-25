@@ -32,6 +32,7 @@ export function Header({ setUser, setUserState }: {
 
     function handleHome() {
         setUser(undefined);
+        setUserState({isLoading: false, error: null});
     }
     
     return (
