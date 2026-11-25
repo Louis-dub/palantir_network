@@ -135,3 +135,8 @@ body {
     outline: 2px solid var(--common-accent);
     outline-offset: 3px;
 }
+
+.scrollbar-styled {
+    scrollbar-width: thin;
+    scrollbar-color: var(--common-border) transparent;
+}

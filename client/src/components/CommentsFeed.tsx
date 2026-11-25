@@ -45,7 +45,7 @@ export default function CommentsFeed({ postId, userId, isPostUser }: CommentProp
             <dialog
                 id={`comments-${postId}`}
                 aria-labelledby="create-comments-title"
-                className="m-auto w-[calc(100%-2rem)] max-w-lg rounded-2xl border border-[var(--common-border)] bg-[var(--common-card)] p-0 text-[var(--common-text-primary)] shadow-[0_0_60px_rgba(0,0,0,0.55)] backdrop:bg-black/70 backdrop:backdrop-blur-sm space-y-5 p-5 sm:p-7"
+                className="m-auto w-[calc(100%-2rem)] max-w-lg max-h-[70vh] rounded-2xl border border-[var(--common-border)] bg-[var(--common-card)] p-0 text-[var(--common-text-primary)] shadow-[0_0_60px_rgba(0,0,0,0.55)] backdrop:bg-black/70 backdrop:backdrop-blur-sm space-y-5 p-5 sm:p-7 scrollbar-styled"
             >
                 <div className="flex items-start justify-between gap-4">
                     <div>
