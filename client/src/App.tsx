@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import LoginForm from "./components/LoginForm";
-import PostsFeed from "./components/PostsFeed";
 import { useAuth } from "./contexts/useAuth";
 import RegisterForm from "./components/RegisterForm";
 import CreatePost from "./components/CreatePost";
+import { PostsAll } from "./components/PostsFeed";
 
 export default function App() {
   const {user} = useAuth();
@@ -20,7 +20,7 @@ export default function App() {
         ? (<>
             <Header />
             <main>
-              <PostsFeed />
+              <PostsAll />
               <CreatePost />
             </main>
           </>)
