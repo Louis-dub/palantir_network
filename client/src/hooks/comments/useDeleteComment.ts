@@ -7,8 +7,8 @@ export default function useDeleteComment() {
     return useMutation<void, Error, number>({
         mutationFn: deleteComment,
         onSuccess: (_data, id) => {
-            queryKey.invalidateQueries({ queryKey: ["posts"] });
-            queryKey.removeQueries({ queryKey: ["posts", id] });
+            queryKey.invalidateQueries({ queryKey: ["comments"] });
+            queryKey.removeQueries({ queryKey: ["comments", id] });
         }
     });
 }
