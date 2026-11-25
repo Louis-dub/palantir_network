@@ -85,9 +85,9 @@ router.delete("/:id", requireAuth, async (req: Request, res: Response) => {
             return;
         }
 
-        await pool.query(`
-            DELETE FROM posts WHERE id = $1;
-        `, [postId]);
+        await pool.query("DELETE FROM likes WHERE post_id = $1;", [postId]);
+        await pool.query("DELETE FROM comments WHERE post_id = $1;", [postId]);
+        await pool.query("DELETE FROM posts WHERE id = $1;", [postId]);
         res.status(204).send();
     } catch (error) {
         console.error(error);
