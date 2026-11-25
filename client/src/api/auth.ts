@@ -64,11 +64,7 @@ export async function register({
 }
 
 export async function getUserByUsername(username: string): Promise<User> {
-    const response = await fetch("/api/user", {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username }),
-    });
+    const response = await fetch(`/api/user/${username}`);
 
     if (!response.ok) {
         const errorResponse: { error: string } = await response.json();

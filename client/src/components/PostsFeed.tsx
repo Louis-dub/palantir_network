@@ -41,7 +41,7 @@ export function PostsAll() {
     return <PostsFeed posts={posts} isLoadingPosts={isLoading} error={error} />;
 }
 
-export function PostsByUsername(userId: number) {
+export function PostsByUsername({ userId }: { userId: number }) {
     const {data: posts, isLoading, error} = useGetPostsById(userId);
     return <PostsFeed posts={posts} isLoadingPosts={isLoading} error={error} />;
 }

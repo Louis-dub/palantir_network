@@ -3,8 +3,8 @@ import { pool } from "../db/pool.js";
 
 const userRouter = Router();
 
-userRouter.get("/", async (req: Request, res: Response) => {
-    const username = req.body.username;
+userRouter.get("/:username", async (req: Request, res: Response) => {
+    const username = req.params.username;
 
     if (!username) {
         res.status(400).json({ error: "Username is required." });
