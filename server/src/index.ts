@@ -4,6 +4,7 @@ import postsRouter from "./routes/posts.js";
 import authRouter from "./routes/auth.js";
 import likesRouter from "./routes/likes.js";
 import commentRouter from "./routes/comments.js";
+import userRouter from "./routes/users.js";
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/likes", likesRouter);
 
 app.use("/api/comments", commentRouter);
+
+app.use("/api/user", userRouter);
 
 app.listen(process.env.PORT || 3000, () => {
     console.log(`Server is running on http://localhost:${process.env.PORT || 3000}`);

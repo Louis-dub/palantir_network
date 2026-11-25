@@ -1,10 +1,10 @@
 import { useAuth } from "../contexts/useAuth";
 import useGetLikesByUserId from "../hooks/likes/useGetLikesByUserId";
+import useGetPostsById from "../hooks/posts/useGetPostsById";
 import usePosts from "../hooks/posts/usePosts";
 import PostCard from "./PostCard";
 
-export default function PostsFeed() {
-    const {data: posts, isLoading: isLoadingPosts, error} = usePosts();
+function PostsFeed({posts, isLoadingPosts, error}) {
     const {user} = useAuth();
     const {data: likes = [], isLoading: isLoadingLikes} = useGetLikesByUserId(user?.id);
 
@@ -34,4 +34,14 @@ export default function PostsFeed() {
             }
         </section>
     );
+}
+
+export function PostsAll() {
+    const {data: posts, isLoading, error} = usePosts();
+    return <PostsFeed posts={posts} isLoadingPosts={isLoading} error={error} />;
+}
+
+export function PostsByUsername({ userId }: { userId: number }) {
+    const {data: posts, isLoading, error} = useGetPostsById(userId);
+    return <PostsFeed posts={posts} isLoadingPosts={isLoading} error={error} />;
 }

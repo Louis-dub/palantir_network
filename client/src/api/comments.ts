@@ -11,7 +11,7 @@ export type CreateComment = {
     content: string,
 }
 
-export async function getCommentsByPostId(id: number) {
+export async function getCommentsByPostId(id: number): Promise<Comment[]> {
     const response = await fetch(`/api/comments/${id}`);
 
     if (!response.ok)
