@@ -8,6 +8,7 @@ Palantír is a social network simulation set in **The Lord of the Rings** univer
 - Write and publish post
 - Delete your posts
 - Like a post
+- Comment a post
 
 ## Overview
 
