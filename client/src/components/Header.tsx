@@ -23,7 +23,7 @@ export function Header({ setUser, setUserState }: {
             setUser(user);
             setUserState({ isLoading, error });
         }
-    }, [user, isLoading, error]);
+    }, [user, isLoading, error, searchQuery, setUser, setUserState]);
 
     function handleSubmit(e: SubmitEvent) {
         e.preventDefault();
