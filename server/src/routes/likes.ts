@@ -25,6 +25,27 @@ likesRouter.get("/:id", async (req: Request, res: Response) => {
     }
 });
 
+likesRouter.get("§/post/:id", async (req: Request, res: Response) => {
+    const postId = req.params.id;
+
+    if (!postId) {
+        res.status(400).json({ error: "Post Id is required." });
+        return;
+    }
+
+    try {
+        const result = await pool.query(`
+            SELECT id, user_id, post_id FROM likes
+            WHERE post_id = $1;
+        `, [postId]);
+
+        res.status(201).json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Invalide internal error." });
+    }
+});
+
 likesRouter.post("/:id", requireAuth, async (req: Request, res: Response) => {
     const postId = req.params.id;
     const userId = req.authUserId;
