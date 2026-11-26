@@ -13,7 +13,7 @@ export async function getLikesByUserId(userId: number): Promise<Like[]> {
 }
 
 export async function getLikesByPostId(postId: number): Promise<Like[]> {
-    const response = await fetch(`/api/likes/${postId}`);
+    const response = await fetch(`/api/likes/post/${postId}`);
 
     if (!response.ok)
         throw new Error("Could not access to your likes.");

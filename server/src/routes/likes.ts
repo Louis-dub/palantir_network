@@ -25,7 +25,7 @@ likesRouter.get("/:id", async (req: Request, res: Response) => {
     }
 });
 
-likesRouter.get("§/post/:id", async (req: Request, res: Response) => {
+likesRouter.get("/post/:id", async (req: Request, res: Response) => {
     const postId = req.params.id;
 
     if (!postId) {

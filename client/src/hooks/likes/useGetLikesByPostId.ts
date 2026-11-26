@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getLikesByUserId } from "../../api/likes";
+import { getLikesByPostId } from "../../api/likes";
 
 export default function useGetLikesByPostId(postId: number | undefined) {
     return useQuery({
         queryKey: ["likes", postId],
-        queryFn: () => getLikesByUserId(postId),
+        queryFn: () => getLikesByPostId(postId),
         enabled: postId !== undefined,
     });
 }

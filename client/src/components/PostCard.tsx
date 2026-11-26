@@ -1,23 +1,24 @@
 import { FaEyeSlash, FaRegStar, FaStar } from "react-icons/fa";
 import type { Post } from "../api/posts";
 import useDeletePostApi from "../hooks/posts/useDeletePost";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useCreateLikePostApi from "../hooks/likes/useCreateLikePostApi";
 import useDeleteLikePostApi from "../hooks/likes/useDeleteLikePostApi";
 import CommentsFeed from "./CommentsFeed";
+import useGetLikesByPostId from "../hooks/likes/useGetLikesByPostId";
 
 type PostCardProps = {
     post: Post;
     btnDelete: boolean;
-    btnLike: boolean;
     userId: number;
 };
 
-export default function PostCard({ post, btnDelete, btnLike, userId }: PostCardProps) {
+export default function PostCard({ post, btnDelete, userId }: PostCardProps) {
     const {mutate: deletePost} = useDeletePostApi();
     const {mutate: createLike} = useCreateLikePostApi();
     const {mutate: deleteLike} = useDeleteLikePostApi();
-    const [like, setLike] = useState<boolean>(btnLike);
+    const {data: likes, isLoading, error} = useGetLikesByPostId(post.id);
+    const [like, setLike] = useState<boolean>(false);
 
     function handleClickEye() {
         deletePost(post.id);
@@ -33,6 +34,11 @@ export default function PostCard({ post, btnDelete, btnLike, userId }: PostCardP
         }
             
     }
+
+    useEffect(() => {
+        if (!isLoading && !error)
+            setLike(likes.find(l => l.user_id === userId) !== undefined);
+    }, [likes, isLoading, error]);
 
     return (
         <article
@@ -57,15 +63,18 @@ export default function PostCard({ post, btnDelete, btnLike, userId }: PostCardP
                         isPostUser={btnDelete}
                         userId={userId}
                     />
-                    <button
-                        className="hover:scale-110 active:scale-95 transition-all ease-out"
-                        onClick={handeClickStar}
-                    >
-                        {!like
-                            ? <FaRegStar size={24} />
-                            : <FaStar size={24} /> 
-                        }
-                    </button>
+                    <div className="flex justify-center gap-2 items-center">
+                        {!isLoading && !error && <p>{likes.length}</p>}
+                        <button
+                            className="hover:scale-110 active:scale-95 transition-all ease-out"
+                            onClick={handeClickStar}
+                        >
+                            {!like
+                                ? <FaRegStar size={24} />
+                                : <FaStar size={24} /> 
+                            }
+                        </button>
+                    </div>
                 </div>
             </div>
         </article>
