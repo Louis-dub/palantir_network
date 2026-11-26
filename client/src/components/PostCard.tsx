@@ -57,17 +57,15 @@ export default function PostCard({ post, btnDelete, btnLike, userId }: PostCardP
                         isPostUser={btnDelete}
                         userId={userId}
                     />
-                    {!btnDelete && (
-                        <button
-                            className="hover:scale-110 active:scale-95 transition-all ease-out"
-                            onClick={handeClickStar}
-                        >
-                            {!like
-                                ? <FaRegStar size={24} />
-                                : <FaStar size={24} /> 
-                            }
-                        </button>
-                    )}
+                    <button
+                        className="hover:scale-110 active:scale-95 transition-all ease-out"
+                        onClick={handeClickStar}
+                    >
+                        {!like
+                            ? <FaRegStar size={24} />
+                            : <FaStar size={24} /> 
+                        }
+                    </button>
                 </div>
             </div>
         </article>
