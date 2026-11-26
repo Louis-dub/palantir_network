@@ -1,7 +1,7 @@
 import { FaEyeSlash, FaRegStar, FaStar } from "react-icons/fa";
 import type { Post } from "../api/posts";
 import useDeletePostApi from "../hooks/posts/useDeletePost";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useCreateLikePostApi from "../hooks/likes/useCreateLikePostApi";
 import useDeleteLikePostApi from "../hooks/likes/useDeleteLikePostApi";
 import CommentsFeed from "./CommentsFeed";
@@ -18,7 +18,7 @@ export default function PostCard({ post, btnDelete, userId }: PostCardProps) {
     const {mutate: createLike} = useCreateLikePostApi();
     const {mutate: deleteLike} = useDeleteLikePostApi();
     const {data: likes, isLoading, error} = useGetLikesByPostId(post.id);
-    const [like, setLike] = useState<boolean>(false);
+    const [like, setLike] = useState<boolean>(isLoading ? false : error ? false : likes.find(l => l.user_id === userId) !== undefined);
 
     function handleClickEye() {
         deletePost(post.id);
@@ -34,11 +34,6 @@ export default function PostCard({ post, btnDelete, userId }: PostCardProps) {
         }
             
     }
-
-    useEffect(() => {
-        if (!isLoading && !error)
-            setLike(likes.find(l => l.user_id === userId) !== undefined);
-    }, [likes, isLoading, error]);
 
     return (
         <article
