@@ -51,7 +51,7 @@ export default function PostCard({ post, btnDelete, btnLike, userId }: PostCardP
             </div>
             <div className="flex justify-between items-center w-[100%]">
                 <p>{post.content}</p>
-                <div className="flex justify-center gap-2">
+                <div className="flex justify-center gap-6">
                     <CommentsFeed
                         postId={post.id}
                         isPostUser={btnDelete}

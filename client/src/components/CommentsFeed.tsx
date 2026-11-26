@@ -31,16 +31,19 @@ export default function CommentsFeed({ postId, userId, isPostUser }: CommentProp
             dialog.showModal();
         else
             dialog.close();
-    }, [isOpen]);
+    }, [isOpen, postId]);
 
     return (
         <>
-            <button
-                className="hover:scale-110 active:scale-95 transition-all ease-out"
-                onClick={() => setIsOpen(true)}
-            >
-                <GiScrollUnfurled size={24} />
-            </button>
+            <div className="flex justify-center gap-2">
+                {!isLoading && !error && <p>{comments.length}</p>}
+                <button
+                    className="hover:scale-110 active:scale-95 transition-all ease-out"
+                    onClick={() => setIsOpen(true)}
+                >
+                    <GiScrollUnfurled size={24} />
+                </button>
+            </div>
 
             <dialog
                 id={`comments-${postId}`}
