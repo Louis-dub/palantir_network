@@ -12,6 +12,14 @@ export async function getLikesByUserId(userId: number): Promise<Like[]> {
     return response.json();
 }
 
+export async function getLikesByPostId(postId: number): Promise<Like[]> {
+    const response = await fetch(`/api/likes/${postId}`);
+
+    if (!response.ok)
+        throw new Error("Could not access to your likes.");
+    return response.json();
+}
+
 export async function createLikePostApi(postId: number) {
     const token = sessionStorage.getItem("token");
     const response = await fetch(`/api/likes/${postId}`, {
