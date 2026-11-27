@@ -7,7 +7,7 @@ function PostsFeed({posts, isLoadingPosts, error}) {
     const {user} = useAuth();
 
     return (
-        <section className="w-full mx-auto p-4 space-y-4">
+        <section className="w-full mx-auto p-4 space-y-4 max-h-[calc(100vh-120px)] overflow-y-auto">
             {isLoadingPosts || !user
                 ? <p className="border rounded-lg p-4 bg-[var(--common-card)] border-[var(--common-border)] text-[var(--common-text-secondary)]">
                     Loading...
@@ -29,6 +29,10 @@ function PostsFeed({posts, isLoadingPosts, error}) {
                     />
                 ))
             }
+            <br />
+            <br />
+            <br />
+            <br />
         </section>
     );
 }

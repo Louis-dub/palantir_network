@@ -28,7 +28,7 @@ export default function CreatePost() {
     }, [isOpen]);
 
     return (
-        <section className="w-[100%]">
+        <section className="absolute bottom-[30px] w-[100%]">
             <button
                 type="button"
                 onClick={() => {
