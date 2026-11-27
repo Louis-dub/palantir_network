@@ -6,6 +6,7 @@ import RegisterForm from "./components/RegisterForm";
 import CreatePost from "./components/CreatePost";
 import { PostsAll, PostsByUsername } from "./components/PostsFeed";
 import { type User } from "./api/auth";
+import Profile from "./components/Profile";
 
 export default function App() {
     const {user} = useAuth();
@@ -36,10 +37,13 @@ export default function App() {
                                    The Palantír does not recognise this child of Arda.
                                </p>
                            ) : !userSearch ? (
-                               <>
-                                   <PostsAll />
-                                   <CreatePost />
-                               </>
+                               <div className="flex justify-between">
+                                   <Profile />
+                                   <div className="relative">
+                                       <PostsAll />
+                                       <CreatePost />
+                                   </div>
+                               </div>
                            ) : <PostsByUsername userId={userSearch.id} />}
                        </main>
                    </>)
