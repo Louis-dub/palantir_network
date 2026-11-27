@@ -140,3 +140,9 @@ body {
     scrollbar-width: thin;
     scrollbar-color: var(--common-border) transparent;
 }
+
+@media (max-width: 768px) {
+    .Profile {
+        display: none;
+    }
+}
